@@ -1,0 +1,353 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Microsoft JhengHei",sans-serif;
+}
+
+body{
+min-height:100vh;
+background:
+radial-gradient(circle at 20% 10%,rgba(255,255,255,.68),transparent 26%),
+linear-gradient(180deg,#caf0f8,#48cae4 58%,#0077b6);
+overflow:hidden;
+text-align:center;
+padding:12px;
+color:#023047;
+}
+
+.top{
+padding:14px 10px 10px;
+}
+
+.top h1{
+font-size:44px;
+margin-bottom:8px;
+color:#023e8a;
+}
+
+.top p{
+font-size:21px;
+line-height:1.7;
+}
+
+.info{
+font-size:27px;
+font-weight:bold;
+margin-bottom:14px;
+color:#03396c;
+}
+
+#gameArea{
+width:min(760px,92vw,calc(100vh - 170px));
+aspect-ratio:1/1;
+height:auto;
+background:
+radial-gradient(circle at center,rgba(255,255,255,.92) 0 84px,rgba(255,255,255,.22) 85px 118px,transparent 119px),
+linear-gradient(180deg,rgba(255,255,255,.9),rgba(202,240,248,.78));
+margin:auto;
+border-radius:24px;
+position:relative;
+overflow:hidden;
+box-shadow:0 18px 36px rgba(0,45,80,.24);
+border:3px solid rgba(255,255,255,.72);
+}
+
+.lane{
+position:absolute;
+background:rgba(0,119,182,.1);
+border:2px dashed rgba(0,119,182,.24);
+}
+
+.lane-up,
+.lane-down{
+left:50%;
+width:92px;
+height:50%;
+transform:translateX(-50%);
+}
+
+.lane-up{
+top:0;
+border-bottom:none;
+}
+
+.lane-down{
+bottom:0;
+border-top:none;
+}
+
+.lane-left,
+.lane-right{
+top:50%;
+height:92px;
+width:50%;
+transform:translateY(-50%);
+}
+
+.lane-left{
+left:0;
+border-right:none;
+}
+
+.lane-right{
+right:0;
+border-left:none;
+}
+
+#player{
+position:absolute;
+left:50%;
+top:50%;
+width:104px;
+height:104px;
+transform:translate(-50%,-50%);
+border-radius:50%;
+background:
+radial-gradient(circle at 34% 32%,#ffffff 0 8px,transparent 9px),
+radial-gradient(circle at 66% 32%,#ffffff 0 8px,transparent 9px),
+linear-gradient(180deg,#00b4d8,#0077b6);
+border:7px solid rgba(255,255,255,.9);
+box-shadow:0 16px 28px rgba(0,45,80,.24),inset 0 -10px 0 rgba(0,65,110,.18);
+z-index:10;
+}
+
+.player-face{
+position:absolute;
+left:50%;
+top:57%;
+width:34px;
+height:14px;
+border-bottom:5px solid #023047;
+border-radius:0 0 40px 40px;
+transform:translateX(-50%);
+}
+
+.shield{
+position:absolute;
+left:50%;
+top:50%;
+width:150px;
+height:150px;
+border:14px solid rgba(255,209,102,.95);
+border-radius:50%;
+z-index:-1;
+filter:drop-shadow(0 0 18px rgba(255,209,102,.65));
+transition:clip-path .18s ease,transform .18s ease;
+animation:shieldPulse .8s ease-in-out infinite alternate;
+}
+
+.shield-up{
+clip-path:polygon(0 0,100% 0,100% 50%,0 50%);
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+.shield-down{
+clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%);
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+.shield-left{
+clip-path:polygon(0 0,50% 0,50% 100%,0 100%);
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+.shield-right{
+clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%);
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+.key-hints span{
+position:absolute;
+width:46px;
+height:46px;
+display:grid;
+place-items:center;
+border-radius:12px;
+background:rgba(255,255,255,.82);
+color:#023e8a;
+font-size:26px;
+font-weight:bold;
+box-shadow:0 8px 18px rgba(0,45,80,.12);
+z-index:11;
+}
+
+.hint-up{left:50%;top:calc(50% - 112px);transform:translateX(-50%);}
+.hint-down{left:50%;top:calc(50% + 66px);transform:translateX(-50%);}
+.hint-left{left:calc(50% - 112px);top:50%;transform:translateY(-50%);}
+.hint-right{left:calc(50% + 66px);top:50%;transform:translateY(-50%);}
+
+.trash{
+position:absolute;
+width:48px;
+height:48px;
+z-index:6;
+filter:drop-shadow(0 10px 14px rgba(0,45,80,.18));
+}
+
+.trash::before,
+.trash::after{
+content:"";
+position:absolute;
+display:block;
+}
+
+.trash-bottle{
+width:34px;
+height:68px;
+border-radius:18px 18px 14px 14px;
+background:linear-gradient(180deg,#dff8ff,#7bdff2);
+border:3px solid rgba(255,255,255,.9);
+}
+
+.trash-bottle::before{
+left:8px;
+top:-11px;
+width:18px;
+height:12px;
+background:#48cae4;
+border-radius:6px 6px 2px 2px;
+}
+
+.trash-bag{
+width:58px;
+height:56px;
+border-radius:42% 38% 45% 40%;
+background:radial-gradient(circle at 32% 26%,#d7dcea,#7787a5);
+border:3px solid rgba(255,255,255,.86);
+}
+
+.trash-can{
+width:48px;
+height:56px;
+background:linear-gradient(180deg,#c6f6dd,#52b788);
+border:3px solid rgba(255,255,255,.9);
+clip-path:polygon(12% 18%,88% 18%,76% 100%,24% 100%);
+}
+
+.trash-cup{
+width:42px;
+height:54px;
+background:linear-gradient(180deg,#fff7d6,#ffc86b);
+border:3px solid rgba(255,255,255,.9);
+clip-path:polygon(18% 0,82% 0,68% 100%,32% 100%);
+}
+
+.trash-ring{
+width:54px;
+height:54px;
+border:12px solid #fff7c2;
+border-right-color:#ffc8dd;
+border-bottom-color:#a8e6ff;
+border-radius:50%;
+}
+
+.guard-flash{
+animation:guardFlash .2s ease-out;
+}
+
+.pop{
+animation:trashPop .22s ease-out forwards;
+}
+
+#startScreen,
+#endScreen{
+position:absolute;
+inset:0;
+background:rgba(255,255,255,.94);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+padding:20px;
+}
+
+#startScreen h2,
+#endScreen h2{
+font-size:50px;
+color:#0077b6;
+margin-bottom:22px;
+}
+
+#startScreen p,
+#endScreen p{
+font-size:24px;
+margin-bottom:24px;
+line-height:1.8;
+}
+
+button,
+a{
+padding:14px 36px;
+font-size:21px;
+border:none;
+border-radius:40px;
+background:#0077b6;
+color:white;
+cursor:pointer;
+text-decoration:none;
+margin:8px;
+transition:.3s;
+}
+
+button:hover,
+a:hover{
+background:#0096c7;
+transform:translateY(-3px);
+}
+
+@keyframes trashPop{
+to{opacity:0;transform:scale(1.45) rotate(20deg);}
+}
+
+@keyframes shieldPulse{
+from{opacity:.78;}
+to{opacity:1;}
+}
+
+@keyframes guardFlash{
+from{filter:drop-shadow(0 0 28px rgba(255,209,102,1));}
+to{filter:drop-shadow(0 0 18px rgba(255,209,102,.65));}
+}
+
+@media(max-width:768px){
+body{
+padding:12px;
+}
+.top h1{
+font-size:34px;
+}
+.top p{
+font-size:17px;
+}
+.info{
+font-size:21px;
+}
+#gameArea{
+width:min(92vw,calc(100vh - 180px));
+height:auto;
+}
+#player{
+width:86px;
+height:86px;
+}
+.key-hints span{
+width:38px;
+height:38px;
+font-size:22px;
+}
+#startScreen h2,
+#endScreen h2{
+font-size:34px;
+}
+#startScreen p,
+#endScreen p{
+font-size:19px;
+}
+button,
+a{
+font-size:18px;
+padding:12px 26px;
+}
+}
