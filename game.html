@@ -1,330 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>海洋奇緣｜垃圾回收挑戰</title>
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Microsoft JhengHei",sans-serif;
-}
-
-body{
-min-height:100vh;
-background:linear-gradient(to bottom,#caf0f8,#90e0ef);
-overflow:hidden;
-text-align:center;
-padding:18px;
-}
-
-.top{
-padding:25px 10px 18px;
-color:#023e8a;
-}
-
-.top h1{
-font-size:52px;
-margin-bottom:10px;
-}
-
-.top p{
-font-size:22px;
-line-height:1.8;
-}
-
-.info{
-font-size:28px;
-font-weight:bold;
-margin-bottom:15px;
-color:#03396c;
-}
-
-#gameArea{
-width:min(1000px,95vw);
-height:min(560px,68vh);
-background:white;
-margin:auto;
-border-radius:25px;
-position:relative;
-overflow:hidden;
-box-shadow:0 15px 30px rgba(0,0,0,.18);
-}
-
-#player{
-width:110px;
-height:90px;
-background:linear-gradient(180deg,#5a5a5a,#2c2c2c);
-border-radius:12px 12px 18px 18px;
-position:absolute;
-bottom:12px;
-left:430px;
-box-shadow:inset 0 10px 0 rgba(255,255,255,.15);
-}
-
-#player::before{
-content:"";
-position:absolute;
-top:-10px;
-left:18px;
-width:74px;
-height:12px;
-border:4px solid #2c2c2c;
-border-bottom:none;
-border-radius:12px 12px 0 0;
-}
-
-.trash{
-width:45px;
-height:45px;
-background:#2ecc71;
-border-radius:8px;
-position:absolute;
-top:-60px;
-box-shadow:0 6px 10px rgba(0,0,0,.12);
-}
-
-.trash::before{
-content:"";
-position:absolute;
-top:-6px;
-left:6px;
-width:33px;
-height:8px;
-background:#27ae60;
-border-radius:5px;
-}
-
-#startScreen,
-#endScreen{
-position:absolute;
-inset:0;
-background:rgba(255,255,255,.92);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:999;
-padding:20px;
-}
-
-#startScreen h2,
-#endScreen h2{
-font-size:52px;
-color:#0077b6;
-margin-bottom:25px;
-}
-
-#startScreen p,
-#endScreen p{
-font-size:26px;
-margin-bottom:25px;
-line-height:1.8;
-}
-
-button,
-a{
-padding:15px 40px;
-font-size:22px;
-border:none;
-border-radius:40px;
-background:#0077b6;
-color:white;
-cursor:pointer;
-text-decoration:none;
-margin:8px;
-transition:.3s;
-}
-
-button:hover,
-a:hover{
-background:#0096c7;
-transform:translateY(-3px);
-}
-
-@media(max-width:768px){
-.top h1{
-font-size:36px;
-}
-
-.top p{
-font-size:18px;
-}
-
-.info{
-font-size:22px;
-}
-
-#startScreen h2,
-#endScreen h2{
-font-size:38px;
-}
-
-#startScreen p,
-#endScreen p{
-font-size:20px;
-}
-
-button,
-a{
-font-size:18px;
-padding:12px 28px;
-}
-}
-</style>
+<link rel="stylesheet" href="css/game.css">
 </head>
 <body>
 <div class="top">
-    <h1>海洋垃圾回收挑戰</h1>
-    <p>
-        用滑鼠控制垃圾桶，接住垃圾！<br>
-        每個 +20 分，漏接 -40 分，30 秒挑戰！
-    </p>
+  <h1>海洋垃圾回收挑戰</h1>
+  <p>用滑鼠控制垃圾桶，接住垃圾！<br>每個 +20 分，漏接 -40 分，30 秒挑戰！</p>
 </div>
 
 <div class="info">
-    分數：<span id="score">0</span>
-    ｜ 時間：<span id="time">30</span>
+  分數：<span id="score">0</span>
+  ｜ 時間：<span id="time">30</span>
 </div>
 
 <div id="gameArea">
-    <div id="player"></div>
+  <div id="player"></div>
 
-    <div id="startScreen">
-        <h2>準備開始</h2>
-        <p>滑鼠移動控制垃圾桶</p>
-        <button type="button" onclick="startGame()">開始遊戲</button>
-        <a href="index.html">回首頁</a>
-    </div>
+  <div id="startScreen">
+    <h2>準備開始</h2>
+    <p>滑鼠移動控制垃圾桶</p>
+    <button type="button" onclick="startGame()">開始遊戲</button>
+    <a href="index.html">回首頁</a>
+  </div>
 
-    <div id="endScreen" style="display:none;">
-        <h2>挑戰成功！</h2>
-        <p>總分：<span id="finalScore">0</span></p>
-        <button type="button" onclick="startGame()">再來一次</button>
-        <a href="index.html">回首頁</a>
-    </div>
+  <div id="endScreen" style="display:none;">
+    <h2>挑戰成功！</h2>
+    <p>總分：<span id="finalScore">0</span></p>
+    <button type="button" onclick="startGame()">再來一次</button>
+    <a href="index.html">回首頁</a>
+  </div>
 </div>
 
-<script>
-const gameArea = document.getElementById("gameArea");
-const player = document.getElementById("player");
-const scoreText = document.getElementById("score");
-const timeText = document.getElementById("time");
-const finalScore = document.getElementById("finalScore");
-
-let score = 0;
-let time = 30;
-let playerX = 430;
-let trashList = [];
-let speed = 3.5;
-let playing = false;
-let gameLoop;
-let timerLoop;
-let spawnLoop;
-
-function startGame(){
-document.getElementById("startScreen").style.display = "none";
-document.getElementById("endScreen").style.display = "none";
-
-score = 0;
-time = 30;
-speed = 3.5;
-
-scoreText.innerText = score;
-timeText.innerText = time;
-
-trashList.forEach((t) => t.remove());
-trashList = [];
-
-playing = true;
-
-clearInterval(gameLoop);
-clearInterval(timerLoop);
-clearInterval(spawnLoop);
-
-gameLoop = setInterval(updateGame,20);
-spawnLoop = setInterval(createTrash,600);
-
-timerLoop = setInterval(() => {
-time--;
-timeText.innerText = time;
-speed += 0.35;
-
-if(time <= 0){
-endGame();
-}
-},1000);
-}
-
-function createTrash(){
-if(!playing) return;
-
-const trash = document.createElement("div");
-trash.classList.add("trash");
-
-const maxX = gameArea.clientWidth - 50;
-trash.x = Math.random() * maxX;
-trash.y = -50;
-
-trash.style.left = trash.x + "px";
-trash.style.top = trash.y + "px";
-
-gameArea.appendChild(trash);
-trashList.push(trash);
-}
-
-function updateGame(){
-trashList = trashList.filter((trash) => {
-trash.y += speed;
-trash.style.top = trash.y + "px";
-
-if(
-trash.y > gameArea.clientHeight - 120 &&
-trash.x + 45 > playerX &&
-trash.x < playerX + player.offsetWidth
-){
-score += 20;
-scoreText.innerText = score;
-trash.remove();
-return false;
-}
-
-if(trash.y > gameArea.clientHeight){
-score -= 40;
-scoreText.innerText = score;
-trash.remove();
-return false;
-}
-
-return true;
-});
-}
-
-function endGame(){
-playing = false;
-
-clearInterval(gameLoop);
-clearInterval(timerLoop);
-clearInterval(spawnLoop);
-
-document.getElementById("endScreen").style.display = "flex";
-finalScore.innerText = score;
-}
-
-gameArea.addEventListener("mousemove",(e) => {
-if(!playing) return;
-
-const rect = gameArea.getBoundingClientRect();
-playerX = e.clientX - rect.left - player.offsetWidth / 2;
-
-const maxX = gameArea.clientWidth - player.offsetWidth;
-if(playerX < 0) playerX = 0;
-if(playerX > maxX) playerX = maxX;
-
-player.style.left = playerX + "px";
-});
-</script>
+<script src="script/game.js"></script>
 </body>
 </html>

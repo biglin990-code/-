@@ -1,366 +1,84 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>海洋奇緣｜探索台灣</title>
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Microsoft JhengHei",sans-serif;
-}
-
-body{
-min-height:100vh;
-background:
-radial-gradient(circle at top,rgba(255,255,255,.82),transparent 28%),
-linear-gradient(180deg,#dff6ff 0%,#a6d9f1 45%,#6daecf 100%);
-color:#16384c;
-}
-
-.navbar{
-position:sticky;
-top:0;
-z-index:999;
-padding:18px 28px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(4,69,106,.74);
-backdrop-filter:blur(12px);
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:14px;
-color:white;
-text-decoration:none;
-}
-
-.brand-mark{
-width:46px;
-height:46px;
-border-radius:50%;
-display:grid;
-place-items:center;
-background:linear-gradient(135deg,#b8f2ff,#2ba8d8);
-font-weight:bold;
-box-shadow:inset 0 0 0 2px rgba(255,255,255,.45);
-}
-
-.brand span{
-font-size:26px;
-font-weight:bold;
-}
-
-.nav-links{
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-
-.nav-links a{
-text-decoration:none;
-color:white;
-padding:10px 18px;
-border-radius:999px;
-transition:.25s;
-}
-
-.nav-links a:hover{
-background:rgba(255,255,255,.14);
-}
-
-.page{
-max-width:1240px;
-margin:0 auto;
-padding:32px 24px 56px;
-}
-
-.hero{
-padding:38px;
-border-radius:32px;
-background:
-radial-gradient(circle at 20% 20%,rgba(255,255,255,.45),transparent 24%),
-linear-gradient(135deg,rgba(255,255,255,.74),rgba(255,255,255,.34));
-border:1px solid rgba(255,255,255,.45);
-box-shadow:0 18px 42px rgba(12,71,108,.12);
-margin-bottom:24px;
-}
-
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:rgba(0,119,182,.1);
-color:#0b628f;
-font-weight:bold;
-margin-bottom:16px;
-}
-
-.hero h1{
-font-size:52px;
-line-height:1.15;
-color:#0a4e74;
-margin-bottom:18px;
-}
-
-.hero p{
-font-size:21px;
-line-height:1.9;
-max-width:880px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:20px;
-}
-
-.card{
-padding:22px;
-border-radius:28px;
-background:rgba(255,255,255,.82);
-border:1px solid rgba(255,255,255,.52);
-box-shadow:0 16px 34px rgba(12,71,108,.08);
-}
-
-.map-frame{
-height:320px;
-border-radius:22px;
-background:linear-gradient(180deg,#061726,#0c3858);
-display:flex;
-align-items:center;
-justify-content:center;
-padding:14px;
-overflow:hidden;
-margin-bottom:18px;
-}
-
-.map-frame img{
-max-width:100%;
-max-height:100%;
-object-fit:contain;
-display:block;
-filter:drop-shadow(0 12px 24px rgba(0,0,0,.35));
-}
-
-.tag{
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:rgba(0,180,216,.1);
-color:#0b628f;
-font-size:14px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.card h2{
-font-size:28px;
-color:#0a4e74;
-margin-bottom:10px;
-}
-
-.species{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin:14px 0;
-}
-
-.species span{
-padding:8px 12px;
-border-radius:999px;
-background:white;
-border:1px solid rgba(7,61,97,.12);
-font-size:14px;
-}
-
-.card p{
-font-size:16px;
-line-height:1.8;
-color:#3b5a6d;
-}
-
-.actions{
-margin-top:26px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-
-.btn{
-display:inline-block;
-padding:14px 28px;
-border-radius:999px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-transition:.25s;
-}
-
-.btn-primary{
-background:#00b4d8;
-color:white;
-}
-
-.btn-secondary{
-background:rgba(255,255,255,.8);
-color:#0a4e74;
-border:1px solid rgba(7,61,97,.12);
-}
-
-.btn-primary:hover,
-.btn-secondary:hover{
-transform:translateY(-2px);
-}
-
-@media(max-width:860px){
-.navbar{
-padding:16px 18px;
-flex-direction:column;
-gap:12px;
-}
-
-.page{
-padding:22px 14px 40px;
-}
-
-.hero{
-padding:26px 20px;
-}
-
-.hero h1{
-font-size:38px;
-}
-
-.hero p{
-font-size:18px;
-}
-
-.cards{
-grid-template-columns:1fr;
-}
-}
-</style>
+<link rel="stylesheet" href="css/taiwan.css">
 </head>
 <body>
 <header class="navbar">
-    <a href="index.html" class="brand">
-        <div class="brand-mark">海</div>
-        <span>海洋奇緣</span>
-    </a>
-
-    <nav class="nav-links">
-        <a href="index.html">回首頁</a>
-        <a href="game.html">小遊戲</a>
-    </nav>
+  <a href="index.html" class="brand">
+    <div class="brand-mark">海</div>
+    <span>海洋奇緣</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">回首頁</a>
+    <a href="game.html">小遊戲</a>
+  </nav>
 </header>
 
 <main class="page">
-    <section class="hero">
-        <span class="eyebrow">探索台灣海洋</span>
-        <h1>台灣海域分區地圖</h1>
-        <p>
-            先改成最清楚的一張一張圖片展示方式，讓每個區域的地圖都能直接看見。
-            下面每張圖都對應一個區域，並搭配代表物種與簡短介紹。
-        </p>
-    </section>
+  <section class="hero">
+    <span class="eyebrow">探索台灣海洋</span>
+    <h1>台灣海域分區地圖</h1>
+    <p>每張圖都對應一個區域，並搭配代表物種與簡短介紹，方便一區一區認識台灣海洋特色。</p>
+  </section>
 
-    <section class="cards">
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0625.png" alt="北北基宜地圖">
-            </div>
-            <span class="tag">北北基宜</span>
-            <h2>北部岩岸海域</h2>
-            <div class="species">
-                <span>軟絲</span>
-                <span>九孔</span>
-                <span>海膽</span>
-            </div>
-            <p>北部海域常見岩岸、潮池與潮流交會環境，適合介紹附著生物、頭足類與近岸魚群。</p>
-        </article>
+  <section class="cards">
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0625.png" alt="北北基宜地圖"></div>
+      <span class="tag">北北基宜</span>
+      <h2>北部岩岸海域</h2>
+      <div class="species"><span>軟絲</span><span>九孔</span><span>海膽</span></div>
+      <p>北部海域常見岩岸、潮池與潮流交會環境，適合介紹附著生物、頭足類與近岸魚群。</p>
+    </article>
 
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0626.png" alt="桃竹苗地圖">
-            </div>
-            <span class="tag">桃竹苗</span>
-            <h2>西北沿岸濕地</h2>
-            <div class="species">
-                <span>招潮蟹</span>
-                <span>彈塗魚</span>
-                <span>牡蠣</span>
-            </div>
-            <p>這一帶適合介紹潮間帶、河口與濕地生態，也能把人與海岸生活一起放進內容裡。</p>
-        </article>
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0626.png" alt="桃竹苗地圖"></div>
+      <span class="tag">桃竹苗</span>
+      <h2>西北沿岸濕地</h2>
+      <div class="species"><span>招潮蟹</span><span>彈塗魚</span><span>牡蠣</span></div>
+      <p>這一帶適合介紹潮間帶、河口與濕地生態，也能把人與海岸生活一起放進內容裡。</p>
+    </article>
 
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0629.png" alt="中彰投地圖">
-            </div>
-            <span class="tag">中彰投</span>
-            <h2>中部海岸保育區</h2>
-            <div class="species">
-                <span>中華白海豚</span>
-                <span>文蛤</span>
-                <span>沙蟹</span>
-            </div>
-            <p>中部海岸適合結合海洋生態與保育議題，像中華白海豚就是很有代表性的主題。</p>
-        </article>
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0629.png" alt="中彰投地圖"></div>
+      <span class="tag">中彰投</span>
+      <h2>中部海岸保育區</h2>
+      <div class="species"><span>中華白海豚</span><span>文蛤</span><span>沙蟹</span></div>
+      <p>中部海岸適合結合海洋生態與保育議題，像中華白海豚就是很有代表性的主題。</p>
+    </article>
 
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0624.png" alt="雲嘉南地圖">
-            </div>
-            <span class="tag">雲嘉南</span>
-            <h2>潟湖與魚塭生態</h2>
-            <div class="species">
-                <span>虱目魚</span>
-                <span>彈塗魚</span>
-                <span>招潮蟹</span>
-            </div>
-            <p>雲嘉南很適合介紹潟湖、濕地與魚塭文化，讓海洋內容更貼近地方生活。</p>
-        </article>
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0624.png" alt="雲嘉南地圖"></div>
+      <span class="tag">雲嘉南</span>
+      <h2>潟湖與魚塭生態</h2>
+      <div class="species"><span>虱目魚</span><span>彈塗魚</span><span>招潮蟹</span></div>
+      <p>雲嘉南很適合介紹潟湖、濕地與魚塭文化，讓海洋內容更貼近地方生活。</p>
+    </article>
 
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0627.png" alt="高屏地圖">
-            </div>
-            <span class="tag">高屏</span>
-            <h2>南部珊瑚海域</h2>
-            <div class="species">
-                <span>小丑魚</span>
-                <span>綠蠵龜</span>
-                <span>珊瑚礁魚類</span>
-            </div>
-            <p>南部海域色彩豐富，珊瑚礁與熱帶魚群非常適合做成視覺吸引力高的教學區塊。</p>
-        </article>
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0627.png" alt="高屏地圖"></div>
+      <span class="tag">高屏</span>
+      <h2>南部珊瑚海域</h2>
+      <div class="species"><span>小丑魚</span><span>綠蠵龜</span><span>珊瑚礁魚類</span></div>
+      <p>南部海域色彩豐富，珊瑚礁與熱帶魚群非常適合做成視覺吸引力高的教學區塊。</p>
+    </article>
 
-        <article class="card">
-            <div class="map-frame">
-                <img src="IMG_0628.png" alt="花東地圖">
-            </div>
-            <span class="tag">花東</span>
-            <h2>黑潮深海海域</h2>
-            <div class="species">
-                <span>飛魚</span>
-                <span>鬼頭刀</span>
-                <span>飛旋海豚</span>
-            </div>
-            <p>花東海域受黑潮影響，適合介紹洄游魚群、海豚與深海環境，是很有探險感的一區。</p>
-        </article>
-    </section>
+    <article class="card">
+      <div class="map-frame"><img src="IMG_0628.png" alt="花東地圖"></div>
+      <span class="tag">花東</span>
+      <h2>黑潮深海海域</h2>
+      <div class="species"><span>飛魚</span><span>鬼頭刀</span><span>飛旋海豚</span></div>
+      <p>花東海域受黑潮影響，適合介紹洄游魚群、海豚與深海環境，是很有探險感的一區。</p>
+    </article>
+  </section>
 
-    <div class="actions">
-        <a href="index.html" class="btn btn-secondary">回首頁</a>
-        <a href="game.html" class="btn btn-primary">前往小遊戲</a>
-    </div>
+  <div class="actions">
+    <a href="index.html" class="btn btn-secondary">回首頁</a>
+    <a href="game.html" class="btn btn-primary">前往小遊戲</a>
+  </div>
 </main>
 </body>
 </html>

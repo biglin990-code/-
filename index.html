@@ -1,1051 +1,159 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>海洋奇緣</title>
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Microsoft JhengHei",sans-serif;
-scroll-behavior:smooth;
-}
-
-:root{
---deep:#023e8a;
---ocean:#0077b6;
---wave:#00b4d8;
---foam:#caf0f8;
---mist:#f8fdff;
---text:#1b2a34;
-}
-
-body{
-background:var(--mist);
-overflow-x:hidden;
-color:var(--text);
-}
-
-.navbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:18px 50px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-z-index:999;
-background:rgba(0,50,80,.55);
-backdrop-filter:blur(10px);
-}
-
-.logo-area{
-display:flex;
-align-items:center;
-gap:15px;
-color:white;
-}
-
-.logo{
-width:55px;
-height:55px;
-border-radius:50%;
-object-fit:cover;
-background:linear-gradient(135deg,#90e0ef,#0077b6);
-border:2px solid rgba(255,255,255,.5);
-}
-
-.logo-area h1{
-font-size:28px;
-}
-
-nav{
-display:flex;
-align-items:center;
-gap:24px;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-font-size:18px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#90e0ef;
-}
-
-.game-link{
-display:inline-block;
-padding:12px 24px;
-border-radius:999px;
-background:#ffd166;
-color:#05314d;
-font-weight:bold;
-box-shadow:0 8px 18px rgba(0,0,0,.14);
-}
-
-.game-link:hover{
-color:#05314d;
-background:#ffe29a;
-transform:translateY(-2px);
-}
-
-.hero{
-height:100vh;
-position:relative;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-overflow:hidden;
-padding:0 20px;
-isolation:isolate;
-}
-
-.hero-bg{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-3;
-}
-
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%,rgba(202,240,248,.45),transparent 30%),
-radial-gradient(circle at 80% 30%,rgba(0,180,216,.35),transparent 28%),
-linear-gradient(180deg,rgba(2,62,138,.15),rgba(2,62,138,.75));
-z-index:-2;
-}
-
-.overlay{
-position:absolute;
-inset:0;
-background:rgba(0,0,0,.25);
-z-index:-1;
-}
-
-.hero-glow{
-position:absolute;
-inset:0;
-z-index:0;
-pointer-events:none;
-background:
-radial-gradient(circle at 18% 22%,rgba(255,255,255,.22),transparent 24%),
-radial-gradient(circle at 82% 28%,rgba(0,180,216,.18),transparent 22%),
-radial-gradient(circle at 50% 68%,rgba(255,255,255,.12),transparent 30%);
-animation:glowShift 10s ease-in-out infinite alternate;
-}
-
-.wave-band{
-position:absolute;
-left:-5%;
-width:110%;
-height:170px;
-border-radius:45% 55% 0 0;
-background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0));
-opacity:.55;
-pointer-events:none;
-}
-
-.wave-back{
-bottom:130px;
-z-index:0;
-animation:waveDrift 13s linear infinite;
-}
-
-.wave-front{
-bottom:10px;
-height:210px;
-background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
-z-index:1;
-animation:waveDrift 9s linear infinite reverse;
-}
-
-.floating-trash{
-position:absolute;
-inset:0;
-overflow:hidden;
-z-index:1;
-pointer-events:auto;
-}
-
-.trash-item{
-position:absolute;
-display:block;
-cursor:pointer;
-border:none;
-background:transparent;
-padding:0;
-will-change:transform;
-filter:drop-shadow(0 10px 18px rgba(8,37,68,.16));
-}
-
-.trash-item:hover{
-transform:scale(1.06);
-}
-
-.trash-item::before,
-.trash-item::after{
-content:"";
-position:absolute;
-display:block;
-}
-
-.trash-bottle{
-width:34px;
-height:94px;
-background:
-radial-gradient(circle at 11px 49px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(circle at 23px 49px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(ellipse at 17px 59px,transparent 0 6px,#274c77 6px 7px,transparent 7.5px),
-linear-gradient(180deg,#c9f1ff,#9edfff 62%,#7bc8ef);
-border:3px solid rgba(255,255,255,.88);
-border-radius:18px 18px 16px 16px;
-box-shadow:inset 0 8px 10px rgba(255,255,255,.24);
-}
-
-.trash-bottle::before{
-width:18px;
-height:12px;
-top:-11px;
-left:7px;
-background:linear-gradient(180deg,#7ed0ff,#47b0eb);
-border-radius:6px 6px 2px 2px;
-}
-
-.trash-bottle::after{
-width:24px;
-height:14px;
-left:2px;
-top:28px;
-background:#ffe38b;
-border-radius:7px;
-}
-
-.trash-bag{
-width:60px;
-height:68px;
-background:
-radial-gradient(circle at 21px 28px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(circle at 38px 28px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(ellipse at 30px 39px,transparent 0 7px,#274c77 7px 8px,transparent 8.5px),
-radial-gradient(circle at 32% 26%,#c1c9dc,#8ea0bf 60%,#7787a5);
-border:3px solid rgba(255,255,255,.88);
-border-radius:42% 38% 45% 40%;
-box-shadow:inset 0 8px 10px rgba(255,255,255,.18);
-}
-
-.trash-bag::before{
-width:22px;
-height:20px;
-top:-10px;
-left:19px;
-background:#7a89a0;
-border-radius:40% 40% 20% 20%;
-}
-
-.trash-can{
-width:50px;
-height:58px;
-background:
-radial-gradient(circle at 16px 24px,#2a5f4a 0 2px,transparent 2.5px),
-radial-gradient(circle at 32px 24px,#2a5f4a 0 2px,transparent 2.5px),
-radial-gradient(ellipse at 24px 34px,transparent 0 7px,#2a5f4a 7px 8px,transparent 8.5px),
-linear-gradient(180deg,#c6f6dd,#7dd9ab);
-border:3px solid rgba(255,255,255,.88);
-clip-path:polygon(14% 18%,86% 18%,74% 100%,26% 100%);
-border-radius:10px;
-}
-
-.trash-can::before{
-width:60px;
-height:9px;
-top:6px;
-left:-5px;
-background:#ebfff6;
-border-radius:8px;
-}
-
-.trash-cup{
-width:40px;
-height:54px;
-background:
-radial-gradient(circle at 12px 18px,#7a4a24 0 2px,transparent 2.5px),
-radial-gradient(circle at 26px 18px,#7a4a24 0 2px,transparent 2.5px),
-radial-gradient(ellipse at 19px 28px,transparent 0 6px,#7a4a24 6px 7px,transparent 7.5px),
-linear-gradient(180deg,#fff7d6,#ffc86b);
-border:3px solid rgba(255,255,255,.88);
-clip-path:polygon(18% 0,82% 0,68% 100%,32% 100%);
-}
-
-.trash-cup::before{
-width:50px;
-height:9px;
-top:-4px;
-left:-5px;
-background:#fff4c9;
-border-radius:8px;
-}
-
-.trash-cup::after{
-width:6px;
-height:38px;
-top:-30px;
-left:16px;
-background:linear-gradient(180deg,#ff91a4,#ffd1a0);
-border-radius:6px;
-transform:rotate(8deg);
-}
-
-.trash-ring{
-width:54px;
-height:54px;
-border:12px solid #fff7c2;
-border-right-color:#ffc8dd;
-border-bottom-color:#a8e6ff;
-border-radius:50%;
-background:
-radial-gradient(circle at 14px 14px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(circle at 28px 14px,#274c77 0 2px,transparent 2.5px),
-radial-gradient(ellipse at 21px 22px,transparent 0 5px,#274c77 5px 6px,transparent 6.5px);
-}
-
-.trash-ring::before{
-width:14px;
-height:14px;
-top:13px;
-left:13px;
-background:rgba(255,255,255,.3);
-border-radius:50%;
-}
-
-.trash-item.is-popping{
-animation:trashPop .55s ease forwards;
-pointer-events:none;
-}
-
-.bubble-burst{
-position:absolute;
-pointer-events:none;
-}
-
-.bubble{
-position:absolute;
-width:14px;
-height:14px;
-border-radius:50%;
-background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.95),rgba(173,232,244,.55) 55%,rgba(173,232,244,0) 70%);
-border:1px solid rgba(255,255,255,.85);
-box-shadow:0 0 12px rgba(255,255,255,.45);
-animation:bubbleFloat .7s ease-out forwards;
-}
-
-.ambient-bubbles{
-position:absolute;
-inset:0;
-pointer-events:none;
-z-index:1;
-overflow:hidden;
-}
-
-.ambient-bubbles span{
-position:absolute;
-bottom:-40px;
-width:16px;
-height:16px;
-border-radius:50%;
-background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.85),rgba(173,232,244,.45) 60%,rgba(173,232,244,0) 72%);
-border:1px solid rgba(255,255,255,.6);
-opacity:.55;
-animation:ambientBubble linear infinite;
-}
-
-.sea-life{
-position:absolute;
-inset:0;
-pointer-events:none;
-z-index:1;
-overflow:hidden;
-}
-
-.fish{
-position:absolute;
-width:76px;
-height:34px;
-background:linear-gradient(90deg,rgba(255,209,102,.92),rgba(255,145,164,.9));
-border-radius:55% 45% 55% 45%;
-opacity:.42;
-filter:blur(.2px);
-animation:fishSwim linear infinite;
-}
-
-.fish::before{
-content:"";
-position:absolute;
-right:-18px;
-top:7px;
-border-left:20px solid rgba(255,209,102,.88);
-border-top:10px solid transparent;
-border-bottom:10px solid transparent;
-}
-
-.fish::after{
-content:"";
-position:absolute;
-left:14px;
-top:12px;
-width:5px;
-height:5px;
-background:#224870;
-border-radius:50%;
-}
-
-.fish-1{
-top:24%;
-right:-100px;
-transform:scale(.75);
-animation-duration:18s;
-}
-
-.fish-2{
-top:68%;
-right:-140px;
-transform:scale(.95);
-animation-duration:22s;
-animation-delay:-9s;
-}
-
-.fish-3{
-top:52%;
-right:-180px;
-transform:scale(.62);
-animation-duration:16s;
-animation-delay:-4s;
-}
-
-.hero-content{
-color:white;
-animation:fadeUp 1.3s ease;
-max-width:760px;
-position:relative;
-z-index:3;
-}
-
-.hero-content h2{
-font-size:80px;
-letter-spacing:3px;
-margin-bottom:20px;
-}
-
-.hero-content p{
-font-size:28px;
-line-height:1.8;
-margin-bottom:35px;
-}
-
-.btn,
-.btn2{
-display:inline-block;
-padding:16px 40px;
-background:var(--wave);
-color:white;
-text-decoration:none;
-font-size:20px;
-border-radius:40px;
-transition:.3s;
-}
-
-.btn:hover,
-.btn2:hover{
-background:#0096c7;
-transform:translateY(-5px);
-}
-
-.hero-badges{
-display:flex;
-justify-content:center;
-gap:16px;
-margin-top:28px;
-flex-wrap:wrap;
-}
-
-.hero-badge{
-padding:10px 16px;
-border-radius:999px;
-background:rgba(255,255,255,.14);
-border:1px solid rgba(255,255,255,.22);
-backdrop-filter:blur(8px);
-font-size:16px;
-letter-spacing:1px;
-}
-
-.about{
-padding:100px 80px;
-display:flex;
-align-items:center;
-gap:60px;
-background:white;
-}
-
-.about-left,
-.about-right{
-width:50%;
-}
-
-.about-left img{
-width:100%;
-border-radius:20px;
-box-shadow:0 15px 25px rgba(0,0,0,.12);
-object-fit:cover;
-min-height:340px;
-background:linear-gradient(135deg,#caf0f8,#90e0ef);
-}
-
-.about-right h2{
-font-size:42px;
-color:var(--ocean);
-margin-bottom:25px;
-}
-
-.about-right p{
-font-size:21px;
-line-height:2;
-color:#333;
-}
-
-.data{
-padding:90px 50px;
-display:flex;
-justify-content:center;
-gap:35px;
-background:linear-gradient(to right,#caf0f8,#90e0ef);
-}
-
-.card{
-width:300px;
-background:white;
-padding:45px 30px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 12px 25px rgba(0,0,0,.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-8px);
-}
-
-.card h3{
-font-size:42px;
-color:var(--ocean);
-margin-bottom:15px;
-}
-
-.card p{
-font-size:18px;
-color:#333;
-line-height:1.8;
-}
-
-.enter-map{
-padding:110px 30px;
-text-align:center;
-background:var(--deep);
-color:white;
-}
-
-.enter-map h2{
-font-size:46px;
-margin-bottom:25px;
-}
-
-.enter-map p{
-font-size:22px;
-margin-bottom:35px;
-}
-
-.footer-note{
-padding:20px;
-text-align:center;
-font-size:15px;
-background:#012a5d;
-color:rgba(255,255,255,.82);
-}
-
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(50px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@keyframes trashPop{
-0%{
-opacity:.95;
-}
-100%{
-opacity:0;
-transform:scale(1.35) rotate(20deg);
-}
-}
-
-@keyframes bubbleFloat{
-0%{
-opacity:.95;
-transform:translate3d(0,0,0) scale(.6);
-}
-100%{
-opacity:0;
-transform:translate3d(var(--dx),var(--dy),0) scale(1.35);
-}
-}
-
-@keyframes glowShift{
-from{
-transform:scale(1) translateY(0);
-opacity:.95;
-}
-to{
-transform:scale(1.06) translateY(-8px);
-opacity:1;
-}
-}
-
-@keyframes waveDrift{
-from{
-transform:translateX(0);
-}
-to{
-transform:translateX(4%);
-}
-}
-
-@keyframes ambientBubble{
-from{
-transform:translate3d(0,0,0) scale(.7);
-opacity:0;
-}
-15%{
-opacity:.55;
-}
-to{
-transform:translate3d(var(--riseX),-95vh,0) scale(1.2);
-opacity:0;
-}
-}
-
-@keyframes fishSwim{
-from{
-transform:translateX(0) translateY(0) scale(var(--fishScale,1));
-}
-50%{
-transform:translateX(-55vw) translateY(-10px) scale(var(--fishScale,1));
-}
-to{
-transform:translateX(-115vw) translateY(4px) scale(var(--fishScale,1));
-}
-}
-
-@media(max-width:900px){
-.navbar{
-padding:15px 20px;
-flex-direction:column;
-gap:15px;
-}
-
-nav{
-flex-wrap:wrap;
-justify-content:center;
-gap:14px;
-}
-
-nav a{
-font-size:16px;
-}
-
-.hero-content h2{
-font-size:48px;
-}
-
-.hero-content p{
-font-size:20px;
-}
-
-.hero-badge{
-font-size:14px;
-padding:8px 14px;
-}
-
-.fish{
-opacity:.28;
-}
-
-.about{
-flex-direction:column;
-padding:70px 25px;
-}
-
-.about-left,
-.about-right{
-width:100%;
-}
-
-.data{
-flex-direction:column;
-align-items:center;
-}
-
-.card{
-width:90%;
-}
-
-.enter-map h2{
-font-size:34px;
-}
-}
-</style>
+<link rel="stylesheet" href="css/index.css">
 </head>
-<body>
-<header class="navbar">
-    <div class="logo-area">
-        <img src="logo.png" alt="海洋奇緣 Logo" class="logo">
-        <h1>海洋奇緣</h1>
-    </div>
+<body class="intro-active">
+<section class="opening-scene" id="openingScene" aria-label="海洋奇緣開場動畫">
+  <div class="opening-sky"></div>
+  <div class="opening-sun"></div>
+  <div class="opening-sea"></div>
+  <div class="opening-shore"></div>
+  <div class="opening-bubbles" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-    <nav>
-        <a href="#home">首頁</a>
-        <a href="#about">理念</a>
-        <a href="#map">探索台灣</a>
-        <a href="#danger">海洋危機</a>
-        <a href="#sdgs">SDGs</a>
-        <a href="game.html" class="game-link">小遊戲</a>
-    </nav>
+  <div class="opening-reveal" aria-hidden="true">
+    <div class="reveal-bubble-field">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <h1>海洋奇緣</h1>
+  </div>
+
+  <div class="opening-guide" aria-hidden="true">
+    <span class="guide-head"></span>
+    <span class="guide-body"></span>
+    <span class="guide-arm"></span>
+  </div>
+
+  <div class="opening-submarine" aria-hidden="true">
+    <span class="sub-window"></span>
+    <span class="sub-door"></span>
+    <span class="sub-tail"></span>
+  </div>
+
+  <div class="opening-text">
+    <h2>準備潛入海洋嗎？</h2>
+    <p>坐上淺水艇，一起看看海洋奇緣的故事。</p>
+    <button type="button" id="introStartBtn">開始探索</button>
+  </div>
+</section>
+<header class="navbar">
+  <div class="logo-area">
+    <img src="logo.png" alt="海洋奇緣 Logo" class="logo">
+    <h1>海洋奇緣</h1>
+  </div>
+  <nav>
+    <a href="#home">首頁</a>
+    <a href="#about">理念</a>
+    <a href="#map">探索台灣</a>
+    <a href="#danger">海洋危機</a>
+    <a href="#sdgs">SDGs</a>
+    <a href="game.html" class="game-link">小遊戲</a>
+  </nav>
 </header>
 
 <section class="hero" id="home">
-    <img src="banner.jpg" alt="海洋首頁背景" class="hero-bg">
-    <div class="overlay"></div>
-    <div class="hero-glow"></div>
-    <div class="wave-band wave-back"></div>
-    <div class="floating-trash" id="trashField" aria-hidden="true"></div>
-    <div class="ambient-bubbles" aria-hidden="true">
-        <span style="left:8%; animation-duration:15s; --riseX:18px;"></span>
-        <span style="left:18%; animation-duration:18s; animation-delay:-7s; --riseX:-14px;"></span>
-        <span style="left:34%; animation-duration:14s; animation-delay:-2s; --riseX:10px;"></span>
-        <span style="left:56%; animation-duration:17s; animation-delay:-10s; --riseX:-18px;"></span>
-        <span style="left:73%; animation-duration:13s; animation-delay:-5s; --riseX:14px;"></span>
-        <span style="left:88%; animation-duration:16s; animation-delay:-12s; --riseX:-12px;"></span>
-    </div>
-    <div class="sea-life" aria-hidden="true">
-        <span class="fish fish-1" style="--fishScale:.78;"></span>
-        <span class="fish fish-2" style="--fishScale:.96;"></span>
-        <span class="fish fish-3" style="--fishScale:.65;"></span>
-    </div>
-    <div class="wave-band wave-front"></div>
+  <img src="banner.jpg" alt="海洋首頁背景" class="hero-bg">
+  <div class="overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="wave-band wave-back"></div>
+  <div class="floating-trash" id="trashField" aria-hidden="true"></div>
+  <div class="ambient-bubbles" aria-hidden="true">
+    <span style="left:8%; animation-duration:15s; --riseX:18px;"></span>
+    <span style="left:18%; animation-duration:18s; animation-delay:-7s; --riseX:-14px;"></span>
+    <span style="left:34%; animation-duration:14s; animation-delay:-2s; --riseX:10px;"></span>
+    <span style="left:56%; animation-duration:17s; animation-delay:-10s; --riseX:-18px;"></span>
+    <span style="left:73%; animation-duration:13s; animation-delay:-5s; --riseX:14px;"></span>
+    <span style="left:88%; animation-duration:16s; animation-delay:-12s; --riseX:-12px;"></span>
+  </div>
+  <div class="sea-life" aria-hidden="true">
+    <span class="fish fish-1" style="--fishScale:.78;"></span>
+    <span class="fish fish-2" style="--fishScale:.96;"></span>
+    <span class="fish fish-3" style="--fishScale:.65;"></span>
+  </div>
+  <div class="wave-band wave-front"></div>
 
-    <div class="hero-content">
-        <h2>海洋奇緣</h2>
-        <p>
-            探索台灣海洋之美<br>
-            守護永續未來
-        </p>
-        <a href="#map" class="btn">開始探索</a>
-        <div class="hero-badges">
-            <span class="hero-badge">互動探索</span>
-            <span class="hero-badge">認識海洋生物</span>
-            <span class="hero-badge">守護海洋行動</span>
-        </div>
+  <div class="hero-content">
+    <h2>海洋奇緣</h2>
+    <p>探索台灣海洋之美<br>守護永續未來</p>
+    <a href="#map" class="btn">開始探索</a>
+    <div class="hero-badges">
+      <span class="hero-badge">互動探索</span>
+      <span class="hero-badge">認識海洋生物</span>
+      <span class="hero-badge">守護海洋行動</span>
     </div>
+  </div>
 </section>
 
 <section class="about" id="about">
-    <div class="about-left">
-        <img src="about.jpg" alt="海洋理念圖片">
-    </div>
-
-    <div class="about-right">
-        <h2>我們的理念</h2>
-        <p>
-            海洋孕育生命，也提供人類重要資源。<br>
-            但塑膠污染、過度捕撈與氣候變遷，正逐漸破壞海洋生態。<br><br>
-            我們希望透過網站，讓更多人認識台灣海洋生物，
-            一起關注永續發展與保育議題。
-        </p>
-    </div>
+  <div class="about-creatures about-creatures-left" aria-hidden="true">
+    <span class="about-creature turtle"></span>
+    <span class="about-creature jelly"></span>
+    <span class="about-creature small-fish"></span>
+    <span class="about-creature dolphin"></span>
+    <span class="about-creature crab"></span>
+  </div>
+  <div class="about-creatures about-creatures-right" aria-hidden="true">
+    <span class="about-creature ray"></span>
+    <span class="about-creature seahorse"></span>
+    <span class="about-creature small-fish"></span>
+    <span class="about-creature whale"></span>
+    <span class="about-creature starfish"></span>
+  </div>
+  <div class="about-left">
+    <img src="about-ocean.png" alt="海洋污染與保育理念圖片">
+  </div>
+  <div class="about-right">
+    <h2>我們的理念</h2>
+    <p>
+      海洋孕育生命，也提供人類重要資源。<br>
+      但塑膠污染、過度捕撈與氣候變遷，正逐漸破壞海洋生態。<br><br>
+      我們希望透過網站，讓更多人認識台灣海洋生物，
+      一起關注永續發展與保育議題。
+    </p>
+  </div>
 </section>
 
 <section class="data" id="danger">
-    <div class="card">
-        <h3>800萬噸+</h3>
-        <p>每年流入海洋塑膠垃圾</p>
-    </div>
-
-    <div class="card">
-        <h3>90%</h3>
-        <p>全球魚類資源面臨壓力</p>
-    </div>
-
-    <div class="card">
-        <h3>1566公里</h3>
-        <p>台灣海岸線總長</p>
-    </div>
+  <div class="card">
+    <h3>800萬噸+</h3>
+    <p>每年流入海洋塑膠垃圾</p>
+  </div>
+  <div class="card">
+    <h3>90%</h3>
+    <p>全球魚類資源面臨壓力</p>
+  </div>
+  <div class="card">
+    <h3>1566公里</h3>
+    <p>台灣海岸線總長</p>
+  </div>
 </section>
 
 <section class="enter-map" id="map">
-    <h2>探索台灣海洋生物分布</h2>
-    <p>透過互動地圖，認識各地區特色海洋生物</p>
-    <a href="Taiwan.html" class="btn2">立即探索</a>
+  <h2>探索台灣海洋生物分布</h2>
+  <p>透過互動地圖，認識各地區特色海洋生物</p>
+  <a href="Taiwan.html" class="btn2">立即探索</a>
 </section>
 
 <section class="footer-note" id="sdgs">
-    關注海洋保育，從認識、參與到行動，讓永續真正發生。
+  關注海洋保育，從認識、參與到行動，讓永續真正發生。
 </section>
 
-<script>
-const trashField = document.getElementById("trashField");
-const trashTypes = ["trash-bottle","trash-bag","trash-can","trash-cup","trash-ring"];
-const trashSizes = {
-    "trash-bottle": { width: 34, height: 94 },
-    "trash-bag": { width: 60, height: 68 },
-    "trash-can": { width: 50, height: 58 },
-    "trash-cup": { width: 40, height: 54 },
-    "trash-ring": { width: 54, height: 54 }
-};
-const maxTrash = 35;
-const trashBodies = [];
-let lastTime = 0;
-let spawnTimer = 0;
-const gravity = 220;
-const waterDrag = 0.992;
-const floorPadding = 8;
-
-function randomBetween(min,max){
-    return Math.random() * (max - min) + min;
-}
-
-function createTrashItem(){
-    if(trashBodies.length >= maxTrash) return;
-
-    const type = trashTypes[Math.floor(Math.random() * trashTypes.length)];
-    const size = trashSizes[type];
-    const item = document.createElement("button");
-    const fieldWidth = trashField.clientWidth;
-    const xMax = Math.max(0, fieldWidth - size.width);
-
-    item.type = "button";
-    item.className = `trash-item ${type}`;
-    item.setAttribute("aria-label","可點擊清除的海洋垃圾");
-    trashField.appendChild(item);
-
-    const body = {
-        el: item,
-        x: randomBetween(0, xMax),
-        y: -size.height - randomBetween(10, 180),
-        width: size.width,
-        height: size.height,
-        vx: randomBetween(-12, 12),
-        vy: randomBetween(18, 26),
-        swaySeed: randomBetween(0, Math.PI * 2),
-        swayAmp: randomBetween(6, 16),
-        rotation: randomBetween(-14, 14),
-        rotationSpeed: randomBetween(-6, 6),
-        resting:false,
-        removed:false
-    };
-
-    body.el.addEventListener("click", () => popTrash(body));
-    trashBodies.push(body);
-    renderTrash(body);
-}
-
-function renderTrash(body){
-    body.el.style.transform = `translate3d(${body.x}px, ${body.y}px, 0) rotate(${body.rotation}deg)`;
-}
-
-function resolveBounds(body){
-    const maxX = trashField.clientWidth - body.width;
-    const floorY = trashField.clientHeight - body.height - floorPadding;
-
-    if(body.x < 0){
-        body.x = 0;
-        body.vx *= -0.25;
-    }
-
-    if(body.x > maxX){
-        body.x = maxX;
-        body.vx *= -0.25;
-    }
-
-    if(body.y > floorY){
-        body.y = floorY;
-        if(body.vy > 0) body.vy = 0;
-        body.vx *= 0.92;
-        body.rotationSpeed *= 0.94;
-        body.resting = true;
-    }
-}
-
-function resolveCollisions(){
-    for(let i = 0; i < trashBodies.length; i++){
-        const a = trashBodies[i];
-        if(a.removed) continue;
-
-        for(let j = i + 1; j < trashBodies.length; j++){
-            const b = trashBodies[j];
-            if(b.removed) continue;
-
-            const overlapX = Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x);
-            const overlapY = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y);
-
-            if(overlapX <= 0 || overlapY <= 0) continue;
-
-            if(overlapY <= overlapX){
-                const aAbove = a.y < b.y;
-                const upper = aAbove ? a : b;
-                const lower = aAbove ? b : a;
-
-                upper.y -= overlapY;
-                if(!lower.resting){
-                    lower.y += overlapY * 0.08;
-                }
-
-                if(upper.vy > 0) upper.vy = 0;
-                upper.resting = true;
-                lower.resting = lower.y + lower.height >= trashField.clientHeight - floorPadding - 1;
-            }else{
-                const move = overlapX / 2;
-
-                if(a.x < b.x){
-                    a.x -= move;
-                    b.x += move;
-                }else{
-                    a.x += move;
-                    b.x -= move;
-                }
-
-                const push = (a.vx - b.vx) * 0.22;
-                a.vx -= push;
-                b.vx += push;
-            }
-        }
-    }
-}
-
-function popTrash(body){
-    if(body.removed) return;
-    body.removed = true;
-    body.el.classList.add("is-popping");
-    createBubbleBurst(body);
-    setTimeout(() => body.el.remove(), 540);
-}
-
-function createBubbleBurst(body){
-    const burst = document.createElement("div");
-    burst.className = "bubble-burst";
-    burst.style.left = `${body.x}px`;
-    burst.style.top = `${body.y}px`;
-    burst.style.width = `${body.width}px`;
-    burst.style.height = `${body.height}px`;
-
-    for(let i = 0; i < 7; i++){
-        const bubble = document.createElement("span");
-        bubble.className = "bubble";
-        bubble.style.left = `${body.width / 2 - 7}px`;
-        bubble.style.top = `${body.height / 2 - 7}px`;
-        bubble.style.setProperty("--dx",`${randomBetween(-36,36)}px`);
-        bubble.style.setProperty("--dy",`${randomBetween(-56,-18)}px`);
-        burst.appendChild(bubble);
-    }
-
-    trashField.appendChild(burst);
-    setTimeout(() => burst.remove(), 760);
-}
-
-function stepTrash(delta, time){
-    for(let i = trashBodies.length - 1; i >= 0; i--){
-        const body = trashBodies[i];
-
-        if(body.removed){
-            trashBodies.splice(i,1);
-            continue;
-        }
-
-        const sway = Math.sin(time * 0.001 + body.swaySeed) * body.swayAmp;
-        body.resting = false;
-        body.vx += sway * delta * 0.18;
-        body.vy = Math.min(body.vy + gravity * delta, 85);
-        body.vx *= waterDrag;
-        body.vy *= 0.998;
-        body.x += body.vx * delta;
-        body.y += body.vy * delta;
-        body.rotation += body.rotationSpeed * delta;
-        body.rotationSpeed *= 0.994;
-        resolveBounds(body);
-    }
-
-    resolveCollisions();
-
-    for(let i = 0; i < trashBodies.length; i++){
-        const body = trashBodies[i];
-        if(body.removed) continue;
-
-        resolveBounds(body);
-
-        if(Math.abs(body.vx) < 2 && Math.abs(body.vy) < 2){
-            body.vx = 0;
-            body.vy = 0;
-            body.rotationSpeed *= 0.8;
-        }
-
-        renderTrash(body);
-    }
-}
-
-function animateTrash(time){
-    if(!lastTime) lastTime = time;
-    const delta = Math.min((time - lastTime) / 1000, 0.025);
-    lastTime = time;
-    spawnTimer += delta;
-
-    if(spawnTimer >= 1.35){
-        createTrashItem();
-        spawnTimer = 0;
-    }
-
-    stepTrash(delta, time);
-    requestAnimationFrame(animateTrash);
-}
-
-for(let i = 0; i < 8; i++){
-    createTrashItem();
-}
-requestAnimationFrame(animateTrash);
-
-window.addEventListener("resize", () => {
-    trashBodies.forEach((body) => {
-        const maxX = Math.max(0, trashField.clientWidth - body.width);
-        body.x = Math.min(maxX, Math.max(0, body.x));
-        if(body.y + body.height > trashField.clientHeight - floorPadding){
-            body.y = trashField.clientHeight - body.height - floorPadding;
-            body.resting = true;
-        }
-        renderTrash(body);
-    });
-});
-</script>
+<script src="script/index.js"></script>
 </body>
 </html>
