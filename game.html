@@ -1,34 +1,50 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>海洋奇緣｜垃圾回收挑戰</title>
+<title>海洋奇緣｜四向護盾防衛戰</title>
 <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
 <div class="top">
-  <h1>海洋垃圾回收挑戰</h1>
-  <p>用滑鼠控制垃圾桶，接住垃圾！<br>每個 +20 分，漏接 -40 分，30 秒挑戰！</p>
+  <h1>四向護盾防衛戰</h1>
+  <p>垃圾會從上下左右四排靠近中心。按方向鍵切換護盾方向，一次只能防禦一邊！</p>
 </div>
 
 <div class="info">
   分數：<span id="score">0</span>
-  ｜ 時間：<span id="time">30</span>
+  ｜ 生命：<span id="lives">5</span>
+  ｜ 時間：<span id="time">45</span>
 </div>
 
 <div id="gameArea">
-  <div id="player"></div>
+  <div class="lane lane-up"></div>
+  <div class="lane lane-down"></div>
+  <div class="lane lane-left"></div>
+  <div class="lane lane-right"></div>
+
+  <div id="player">
+    <span id="shield" class="shield shield-up"></span>
+    <span class="player-face"></span>
+  </div>
+
+  <div class="key-hints" aria-hidden="true">
+    <span class="hint-up">↑</span>
+    <span class="hint-down">↓</span>
+    <span class="hint-left">←</span>
+    <span class="hint-right">→</span>
+  </div>
 
   <div id="startScreen">
-    <h2>準備開始</h2>
-    <p>滑鼠移動控制垃圾桶</p>
+    <h2>準備守護海洋</h2>
+    <p>使用鍵盤方向鍵：↑ ↓ ← →<br>護盾一次只能防禦一邊，擋住靠近的垃圾！</p>
     <button type="button" onclick="startGame()">開始遊戲</button>
     <a href="index.html">回首頁</a>
   </div>
 
   <div id="endScreen" style="display:none;">
-    <h2>挑戰成功！</h2>
+    <h2 id="endTitle">挑戰結束</h2>
     <p>總分：<span id="finalScore">0</span></p>
     <button type="button" onclick="startGame()">再來一次</button>
     <a href="index.html">回首頁</a>
